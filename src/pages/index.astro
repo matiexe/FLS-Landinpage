@@ -1,0 +1,48 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import SideDrawer from '../components/SideDrawer.astro';
+import Hero from '../components/Hero.astro';
+import QuoteModal from '../components/QuoteModal.astro';
+import CoveragesSection from '../components/CoveragesSection.astro';
+import InsurersCarousel from '../components/InsurersCarousel.astro';
+import ContactSection from '../components/ContactSection.astro';
+import OfficeLocation from '../components/OfficeLocation.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+import Footer from '../components/Footer.astro';
+import { companyInfo } from '../data/companyInfo';
+---
+
+<Layout title={`${companyInfo.name} | ${companyInfo.heroHeadline}`} description={companyInfo.heroSubheadline}>
+  <!-- Side Drawer (Sandwich menu) -->
+  <SideDrawer />
+
+  <!-- Fixed Top Navbar with logo and sandwich toggle -->
+  <Navbar />
+
+  <main>
+    <!-- Hero Section with logo, headline, and "Cotizar ahora" button -->
+    <Hero />
+
+    <!-- 16 Types of Insurance Coverages -->
+    <CoveragesSection />
+
+    <!-- 4 Insurers Infinite Moving Carousel -->
+    <InsurersCarousel />
+
+    <!-- Contact Form with Dropdown for coverages -->
+    <ContactSection />
+
+    <!-- Office Location & Details -->
+    <OfficeLocation />
+  </main>
+
+  <!-- Sober Corporate Footer -->
+  <Footer />
+
+  <!-- Quote Modal (Select 2 Insurers) -->
+  <QuoteModal />
+
+  <!-- Floating WhatsApp CTA Button -->
+  <WhatsAppButton />
+</Layout>

@@ -1,0 +1,85 @@
+---
+import { companyInfo } from '../data/companyInfo';
+---
+
+<header class="sticky top-0 z-40 w-full bg-slate-950/90 backdrop-blur-md border-b border-slate-800 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+    <!-- Brand Logo -->
+    <a href="#inicio" class="flex items-center gap-3.5 group">
+      <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 p-0.5 shadow-lg shadow-blue-900/30 group-hover:scale-105 transition-transform">
+        <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center text-blue-400">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-400 group-hover:text-blue-300 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
+            <path d="m9 12 2 2 4-4"/>
+          </svg>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <div class="flex items-center gap-1.5">
+          <span class="text-xl font-extrabold text-white tracking-tight">FLS</span>
+          <span class="text-xl font-light text-blue-400 tracking-wider">SEGUROS</span>
+        </div>
+        <span class="text-[10px] font-medium text-slate-400 tracking-wider uppercase">Productor Asesor SSN</span>
+      </div>
+    </a>
+
+    <!-- Desktop Navigation Links -->
+    <nav class="hidden md:flex items-center gap-8">
+      <a href="#inicio" class="text-sm font-medium text-slate-300 hover:text-white transition-colors relative py-1 hover:after:w-full after:w-0 after:h-0.5 after:bg-blue-500 after:absolute after:bottom-0 after:left-0 after:transition-all">
+        Inicio
+      </a>
+      <a href="#coberturas" class="text-sm font-medium text-slate-300 hover:text-white transition-colors relative py-1 hover:after:w-full after:w-0 after:h-0.5 after:bg-blue-500 after:absolute after:bottom-0 after:left-0 after:transition-all">
+        Coberturas
+      </a>
+      <a href="#aseguradoras" class="text-sm font-medium text-slate-300 hover:text-white transition-colors relative py-1 hover:after:w-full after:w-0 after:h-0.5 after:bg-blue-500 after:absolute after:bottom-0 after:left-0 after:transition-all">
+        Aseguradoras
+      </a>
+      <a href="#contacto" class="text-sm font-medium text-slate-300 hover:text-white transition-colors relative py-1 hover:after:w-full after:w-0 after:h-0.5 after:bg-blue-500 after:absolute after:bottom-0 after:left-0 after:transition-all">
+        Contacto
+      </a>
+    </nav>
+
+    <!-- Header Actions (CTA & Sandwich Menu Toggle) -->
+    <div class="flex items-center gap-3 sm:gap-4">
+      <!-- Quick Cotizar Button -->
+      <button
+        type="button"
+        id="navbar-quote-btn"
+        class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-semibold shadow-lg shadow-blue-900/30 transition-all hover:shadow-blue-600/40 active:scale-95 cursor-pointer"
+      >
+        <span>Cotizar ahora</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </button>
+
+      <!-- Sandwich Menu Button -->
+      <button
+        id="open-drawer-btn"
+        type="button"
+        class="inline-flex items-center justify-center p-2.5 rounded-xl bg-slate-900 border border-slate-700/80 text-slate-300 hover:text-white hover:bg-slate-800 hover:border-slate-600 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
+        aria-label="Abrir menú de navegación lateral"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  function setupNavbar() {
+    const navbarQuoteBtn = document.getElementById('navbar-quote-btn');
+    const quoteModal = document.getElementById('quote-modal');
+
+    navbarQuoteBtn?.addEventListener('click', () => {
+      if (quoteModal) {
+        quoteModal.dispatchEvent(new CustomEvent('open-modal'));
+      }
+    });
+  }
+
+  setupNavbar();
+  document.addEventListener('astro:page-load', setupNavbar);
+</script>

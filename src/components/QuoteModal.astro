@@ -1,0 +1,314 @@
+---
+import { insurers } from '../data/insurers';
+import { coverages } from '../data/coverages';
+import { companyInfo } from '../data/companyInfo';
+---
+
+<div
+  id="quote-modal"
+  class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 opacity-0 pointer-events-none transition-all duration-300"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-title"
+>
+  <!-- Modal Backdrop -->
+  <div id="modal-backdrop" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md transition-opacity"></div>
+
+  <!-- Modal Dialog -->
+  <div 
+    class="relative w-full max-w-2xl bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] z-10 transform scale-95 transition-transform duration-300"
+    id="modal-card"
+  >
+    <!-- Header -->
+    <div class="p-6 border-b border-slate-800 flex items-start justify-between bg-slate-950/50">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-900/50 border border-blue-500/30 text-blue-300 text-xs font-semibold mb-2">
+          <span>Paso 1 de 2</span>
+          <span>•</span>
+          <span id="selection-counter" class="text-white font-bold">0 de 2 seleccionadas</span>
+        </div>
+        <h3 id="modal-title" class="text-xl sm:text-2xl font-bold text-white tracking-tight">
+          Compará 2 Compañías Aseguradoras
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-300 mt-1">
+          Elegí exactamente 2 marcas para cotizar en paralelo y obtener la comparativa más conveniente.
+        </p>
+      </div>
+
+      <!-- Close Button -->
+      <button
+        id="close-modal-btn"
+        type="button"
+        class="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-slate-800 transition-colors cursor-pointer"
+        aria-label="Cerrar modal de cotización"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Body / Content -->
+    <div class="p-6 overflow-y-auto space-y-5">
+      <!-- Helper Notice -->
+      <div id="selection-alert" class="hidden p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span>Ya has seleccionado 2 aseguradoras. Deselecciona una para elegir otra opción.</span>
+      </div>
+
+      <!-- Quick Coverage Selection Dropdown for Modal -->
+      <div>
+        <label for="modal-coverage-select" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
+          ¿Qué seguro deseás cotizar?
+        </label>
+        <div class="relative">
+          <select 
+            id="modal-coverage-select" 
+            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all cursor-pointer appearance-none"
+          >
+            {coverages.map((cov) => (
+              <option value={cov.title}>{cov.title} ({cov.category})</option>
+            ))}
+          </select>
+          <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-slate-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="m6 9 6 6 6-6"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Insurers Selection Grid (4 items) -->
+      <div>
+        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
+          Seleccioná 2 Aseguradoras
+        </label>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="insurers-container">
+          {insurers.map((insurer) => (
+            <div 
+              data-id={insurer.id}
+              data-name={insurer.name}
+              class="insurer-card group cursor-pointer relative p-4 rounded-xl border-2 border-slate-800 bg-slate-950/60 hover:border-slate-600 transition-all duration-200 select-none"
+            >
+              <div class="flex items-start justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <div class="w-8 h-8 rounded-lg bg-blue-600/20 text-blue-400 flex items-center justify-center font-bold text-xs border border-blue-500/30">
+                    {insurer.shortName.substring(0, 2).toUpperCase()}
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-white text-sm group-hover:text-blue-300 transition-colors">
+                      {insurer.name}
+                    </h4>
+                    <span class="text-[11px] text-slate-400">Desde {insurer.foundedYear}</span>
+                  </div>
+                </div>
+
+                <!-- Custom Checkbox Indicator -->
+                <div class="checkbox-box w-5 h-5 rounded-md border-2 border-slate-600 flex items-center justify-center transition-all bg-slate-900 group-hover:border-slate-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="check-icon w-3.5 h-3.5 text-white hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                </div>
+              </div>
+
+              <p class="text-xs text-slate-400 leading-relaxed mb-2.5">
+                {insurer.tagline}
+              </p>
+
+              <!-- Strength Badges -->
+              <div class="flex flex-wrap gap-1.5">
+                {insurer.strengths.slice(0, 2).map((strength) => (
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800/80 text-slate-300 border border-slate-700/50">
+                    ✓ {strength}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Footer Actions -->
+    <div class="p-6 border-t border-slate-800 bg-slate-950/70 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <button 
+        type="button" 
+        id="modal-clear-btn" 
+        class="text-xs text-slate-400 hover:text-white transition-colors cursor-pointer py-1"
+      >
+        Limpiar selección
+      </button>
+
+      <div class="flex items-center gap-3 w-full sm:w-auto">
+        <button
+          type="button"
+          id="confirm-quote-btn"
+          disabled
+          class="w-full sm:w-auto px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold text-sm shadow-lg transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
+        >
+          <span>Continuar con cotización</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function setupModal() {
+    const modal = document.getElementById('quote-modal');
+    const modalCard = document.getElementById('modal-card');
+    const backdrop = document.getElementById('modal-backdrop');
+    const closeBtn = document.getElementById('close-modal-btn');
+    const cards = document.querySelectorAll<HTMLElement>('.insurer-card');
+    const counterText = document.getElementById('selection-counter');
+    const selectionAlert = document.getElementById('selection-alert');
+    const confirmBtn = document.getElementById('confirm-quote-btn') as HTMLButtonElement | null;
+    const clearBtn = document.getElementById('modal-clear-btn');
+    const coverageSelect = document.getElementById('modal-coverage-select') as HTMLSelectElement | null;
+
+    let selectedInsurers: string[] = [];
+
+    function openModal() {
+      if (!modal || !modalCard) return;
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modal.classList.add('opacity-100', 'pointer-events-auto');
+      modalCard.classList.remove('scale-95');
+      modalCard.classList.add('scale-100');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      if (!modal || !modalCard) return;
+      modal.classList.remove('opacity-100', 'pointer-events-auto');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      modalCard.classList.remove('scale-100');
+      modalCard.classList.add('scale-95');
+      document.body.style.overflow = '';
+      if (selectionAlert) selectionAlert.classList.add('hidden');
+    }
+
+    function updateCardVisuals() {
+      cards.forEach((card) => {
+        const id = card.dataset.id;
+        const isSelected = id && selectedInsurers.includes(id);
+        const checkbox = card.querySelector('.checkbox-box');
+        const checkIcon = card.querySelector('.check-icon');
+
+        if (isSelected) {
+          card.classList.remove('border-slate-800', 'bg-slate-950/60');
+          card.classList.add('border-blue-500', 'bg-blue-950/30', 'ring-1', 'ring-blue-500/50');
+          checkbox?.classList.add('bg-blue-600', 'border-blue-500');
+          checkIcon?.classList.remove('hidden');
+        } else {
+          card.classList.remove('border-blue-500', 'bg-blue-950/30', 'ring-1', 'ring-blue-500/50');
+          card.classList.add('border-slate-800', 'bg-slate-950/60');
+          checkbox?.classList.remove('bg-blue-600', 'border-blue-500');
+          checkIcon?.classList.add('hidden');
+        }
+      });
+
+      if (counterText) {
+        counterText.textContent = `${selectedInsurers.length} de 2 seleccionadas`;
+      }
+
+      if (confirmBtn) {
+        if (selectedInsurers.length === 2) {
+          confirmBtn.disabled = false;
+          confirmBtn.textContent = 'Cotizar ahora con las 2 seleccionadas';
+        } else {
+          confirmBtn.disabled = true;
+          confirmBtn.textContent = `Selecciona ${2 - selectedInsurers.length} más para comparar`;
+        }
+      }
+    }
+
+    cards.forEach((card) => {
+      card.addEventListener('click', () => {
+        const id = card.dataset.id;
+        if (!id) return;
+
+        if (selectedInsurers.includes(id)) {
+          selectedInsurers = selectedInsurers.filter((item) => item !== id);
+          if (selectionAlert) selectionAlert.classList.add('hidden');
+        } else {
+          if (selectedInsurers.length < 2) {
+            selectedInsurers.push(id);
+            if (selectionAlert) selectionAlert.classList.add('hidden');
+          } else {
+            // Already 2 selected, show alert
+            if (selectionAlert) selectionAlert.classList.remove('hidden');
+          }
+        }
+        updateCardVisuals();
+      });
+    });
+
+    clearBtn?.addEventListener('click', () => {
+      selectedInsurers = [];
+      if (selectionAlert) selectionAlert.classList.add('hidden');
+      updateCardVisuals();
+    });
+
+    // Confirmation action: fills contact form and scrolls to it
+    confirmBtn?.addEventListener('click', () => {
+      if (selectedInsurers.length !== 2) return;
+
+      const selectedNames = Array.from(cards)
+        .filter((c) => selectedInsurers.includes(c.dataset.id || ''))
+        .map((c) => c.dataset.name)
+        .join(' y ');
+
+      const chosenCoverage = coverageSelect?.value || 'Seguro Automotor';
+
+      closeModal();
+
+      // Find contact form elements and populate them
+      const contactSelect = document.getElementById('contact-coverage') as HTMLSelectElement | null;
+      const contactMessage = document.getElementById('contact-message') as HTMLTextAreaElement | null;
+
+      if (contactSelect) {
+        for (let i = 0; i < contactSelect.options.length; i++) {
+          if (contactSelect.options[i].text.includes(chosenCoverage)) {
+            contactSelect.selectedIndex = i;
+            break;
+          }
+        }
+      }
+
+      if (contactMessage) {
+        contactMessage.value = `Hola, me interesa comparar cotización para ${chosenCoverage} entre las aseguradoras ${selectedNames}.`;
+      }
+
+      // Smooth scroll to contact
+      const contactSection = document.getElementById('contacto');
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+        // Flash contact box to draw attention
+        contactSection.classList.add('ring-2', 'ring-blue-500');
+        setTimeout(() => {
+          contactSection.classList.remove('ring-2', 'ring-blue-500');
+        }, 2000);
+      }
+    });
+
+    // Event listeners for open / close
+    modal?.addEventListener('open-modal', openModal);
+    closeBtn?.addEventListener('click', closeModal);
+    backdrop?.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal?.classList.contains('opacity-100')) {
+        closeModal();
+      }
+    });
+  }
+
+  setupModal();
+  document.addEventListener('astro:page-load', setupModal);
+</script>

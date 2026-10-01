@@ -1,0 +1,132 @@
+---
+import { insurers } from '../data/insurers';
+
+// Helper to render distinct insurer logos
+function getInsurerSvg(id: string) {
+  switch (id) {
+    case 'federacion-patronal':
+      return `
+        <svg viewBox="0 0 100 100" class="w-12 h-12 shrink-0">
+          <circle cx="50" cy="50" r="46" fill="#034EA2" />
+          <path d="M50 20 L76 34 V52 C76 66 65 78 50 82 C35 78 24 66 24 52 V34 Z" fill="#FFFFFF"/>
+          <path d="M50 28 L68 38 V50 C68 60 60 70 50 73 C40 70 32 60 32 50 V38 Z" fill="#034EA2"/>
+          <text x="50" y="55" font-family="sans-serif" font-size="14" font-weight="900" fill="#FFFFFF" text-anchor="middle">FP</text>
+        </svg>
+      `;
+    case 'san-cristobal':
+      return `
+        <svg viewBox="0 0 100 100" class="w-12 h-12 shrink-0">
+          <rect width="92" height="92" x="4" y="4" rx="20" fill="#E2001A" />
+          <path d="M50 22 L72 35 V52 C72 65 62 76 50 80 C38 76 28 65 28 52 V35 Z" fill="#FFFFFF"/>
+          <path d="M42 42 L48 48 L60 36" stroke="#E2001A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      `;
+    case 'la-segunda':
+      return `
+        <svg viewBox="0 0 100 100" class="w-12 h-12 shrink-0">
+          <circle cx="50" cy="50" r="46" fill="#005596" />
+          <path d="M30 65 C30 45 42 35 55 35 C68 35 72 45 72 52 C72 68 40 62 65 72" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" fill="none"/>
+        </svg>
+      `;
+    case 'zurich':
+      return `
+        <svg viewBox="0 0 100 100" class="w-12 h-12 shrink-0">
+          <circle cx="50" cy="50" r="46" fill="#2167AE" />
+          <text x="50" y="62" font-family="sans-serif" font-size="34" font-weight="800" fill="#FFFFFF" text-anchor="middle">Z</text>
+        </svg>
+      `;
+    default:
+      return ``;
+  }
+}
+
+// Duplicate items twice to ensure seamless continuous marquee loop
+const carouselItems = [...insurers, ...insurers, ...insurers];
+---
+
+<section id="aseguradoras" class="py-24 bg-white border-b border-slate-200 overflow-hidden scroll-mt-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 text-center">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-bold uppercase tracking-wider mb-3">
+      <span>Alianzas Estratégicas</span>
+      <span>•</span>
+      <span>Compañías de Primera Línea</span>
+    </div>
+    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+      Trabajamos con las Aseguradoras Líderes
+    </h2>
+    <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto">
+      Solvencia comprobada, cumplimiento estricto y la mayor red de asistencia mecánica, médica y de reposición del país.
+    </p>
+  </div>
+
+  <!-- Infinite Carousel Container -->
+  <div class="relative w-full overflow-hidden py-4">
+    <!-- Gradient fades on edges -->
+    <div class="absolute left-0 top-0 bottom-0 w-24 sm:w-36 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+    <div class="absolute right-0 top-0 bottom-0 w-24 sm:w-36 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
+
+    <!-- Animated Track -->
+    <div class="animate-marquee flex items-center gap-6 sm:gap-8 px-4">
+      {carouselItems.map((insurer, index) => (
+        <div 
+          class="flex items-center gap-4 p-5 rounded-2xl bg-slate-50 border border-slate-200/90 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-900/5 transition-all duration-300 w-80 shrink-0 cursor-default"
+          key={index}
+        >
+          <div set:html={getInsurerSvg(insurer.id)} />
+          
+          <div class="min-w-0">
+            <div class="flex items-center gap-2">
+              <h3 class="font-extrabold text-slate-900 text-base truncate">
+                {insurer.name}
+              </h3>
+            </div>
+            <p class="text-xs text-slate-500 line-clamp-1 mt-0.5">
+              {insurer.tagline}
+            </p>
+            <div class="flex items-center gap-2 mt-2">
+              <span class="text-[10px] font-bold text-blue-700 bg-blue-100 px-2 py-0.5 rounded-full">
+                Trayectoria {insurer.foundedYear}
+              </span>
+              <span class="text-[10px] text-emerald-600 font-medium">
+                ✓ Solvente
+              </span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Bottom CTA bar -->
+  <div class="max-w-4xl mx-auto px-4 mt-12 text-center">
+    <div class="p-6 rounded-2xl bg-slate-900 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl border border-slate-800">
+      <div class="text-center sm:text-left">
+        <h4 class="text-lg font-bold text-white">¿Querés comparar cotizaciones entre estas compañías?</h4>
+        <p class="text-xs sm:text-sm text-slate-300 mt-1">Seleccioná dos opciones y analizamos la relación costo/beneficio sin compromiso.</p>
+      </div>
+      <button
+        type="button"
+        id="carousel-quote-trigger"
+        class="shrink-0 px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold shadow-lg transition-all duration-200 cursor-pointer"
+      >
+        Comparar 2 Aseguradoras
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  function setupCarouselCta() {
+    const btn = document.getElementById('carousel-quote-trigger');
+    const quoteModal = document.getElementById('quote-modal');
+
+    btn?.addEventListener('click', () => {
+      if (quoteModal) {
+        quoteModal.dispatchEvent(new CustomEvent('open-modal'));
+      }
+    });
+  }
+
+  setupCarouselCta();
+  document.addEventListener('astro:page-load', setupCarouselCta);
+</script>
