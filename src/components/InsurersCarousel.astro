@@ -107,37 +107,4 @@ const carouselItems = [...insurers, ...insurers, ...insurers];
       ))}
     </div>
   </div>
-
-  <!-- Bottom CTA bar -->
-  <div class="max-w-4xl mx-auto px-4 mt-12 text-center">
-    <div class="p-6 rounded-2xl bg-slate-900 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl border border-slate-800">
-      <div class="text-center sm:text-left">
-        <h4 class="text-lg font-bold text-white">¿Querés comparar cotizaciones entre estas compañías?</h4>
-        <p class="text-xs sm:text-sm text-slate-300 mt-1">Seleccioná dos opciones y analizamos la relación costo/beneficio sin compromiso.</p>
-      </div>
-      <button
-        type="button"
-        id="carousel-quote-trigger"
-        class="shrink-0 px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold shadow-lg transition-all duration-200 cursor-pointer"
-      >
-        Comparar 2 Aseguradoras
-      </button>
-    </div>
-  </div>
 </section>
-
-<script>
-  function setupCarouselCta() {
-    const btn = document.getElementById('carousel-quote-trigger');
-    const quoteModal = document.getElementById('quote-modal');
-
-    btn?.addEventListener('click', () => {
-      if (quoteModal) {
-        quoteModal.dispatchEvent(new CustomEvent('open-modal'));
-      }
-    });
-  }
-
-  setupCarouselCta();
-  document.addEventListener('astro:page-load', setupCarouselCta);
-</script>
