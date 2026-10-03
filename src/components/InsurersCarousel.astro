@@ -72,7 +72,18 @@ const carouselItems = [...insurers, ...insurers, ...insurers];
           class="flex items-center gap-4 p-5 rounded-2xl bg-slate-50 border border-slate-200/90 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-900/5 transition-all duration-300 w-80 shrink-0 cursor-default"
           key={index}
         >
-          <div set:html={getInsurerSvg(insurer.id)} />
+          <div class="w-14 h-14 bg-white rounded-xl p-1.5 flex items-center justify-center border border-slate-200 shadow-sm shrink-0 overflow-hidden">
+            {insurer.logoImg ? (
+              <img 
+                src={insurer.logoImg} 
+                alt={insurer.name} 
+                class="max-h-full max-w-full object-contain"
+                loading="lazy"
+              />
+            ) : (
+              <div class="w-full h-full flex items-center justify-center" set:html={getInsurerSvg(insurer.id)} />
+            )}
+          </div>
           
           <div class="min-w-0">
             <div class="flex items-center gap-2">

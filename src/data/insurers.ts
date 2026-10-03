@@ -8,6 +8,7 @@ export interface InsurerItem {
   color: string;
   bgLight: string;
   logoSvg: string;
+  logoImg?: string;
   quoteUrl: string;
 }
 
@@ -22,7 +23,8 @@ export const insurers: InsurerItem[] = [
     color: "#034EA2",
     bgLight: "bg-blue-50 text-blue-900 border-blue-200",
     logoSvg: "fed-patronal",
-    quoteUrl: "https://www.fedpat.com.ar" // URL de redirección editable
+    logoImg: "/Logo_FederacionPatronal.png",
+    quoteUrl: "https://www.fedpat.com.ar"
   },
   {
     id: "san-cristobal",
@@ -34,7 +36,8 @@ export const insurers: InsurerItem[] = [
     color: "#E2001A",
     bgLight: "bg-red-50 text-red-900 border-red-200",
     logoSvg: "san-cristobal",
-    quoteUrl: "https://www.sancristobal.com.ar" // URL de redirección editable
+    logoImg: "/sancristobalLogo.jpg",
+    quoteUrl: "https://www.sancristobal.com.ar"
   },
   {
     id: "la-segunda",
