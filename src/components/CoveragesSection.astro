@@ -59,40 +59,40 @@ function getIconSvg(name: string) {
         Trabajamos de forma independiente para ofrecerte la póliza justa, analizando deducibles, alcance y costos con las compañías líderes del país.
       </p>
 
-      <!-- Category Filter Pills -->
-      <div class="flex flex-wrap items-center justify-center gap-2 mt-8" id="coverage-filters">
+      <!-- Category Filter Pills (swipeable on mobile) -->
+      <div class="flex overflow-x-auto no-scrollbar gap-2 pb-2 px-4 -mx-4 sm:mx-0 sm:px-0 sm:flex-wrap sm:justify-center mt-8" id="coverage-filters">
         <button 
           type="button" 
           data-filter="all"
-          class="filter-pill active px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer bg-slate-900 text-white shadow-sm"
+          class="filter-pill shrink-0 active px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer bg-slate-900 text-white shadow-sm"
         >
           Todas (16)
         </button>
         <button 
           type="button" 
           data-filter="Patrimoniales"
-          class="filter-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer bg-white text-slate-700 hover:bg-slate-200 border border-slate-200"
+          class="filter-pill shrink-0 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer bg-white text-slate-700 hover:bg-slate-200 border border-slate-200"
         >
           Patrimoniales
         </button>
         <button 
           type="button" 
           data-filter="Personas"
-          class="filter-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer bg-white text-slate-700 hover:bg-slate-200 border border-slate-200"
+          class="filter-pill shrink-0 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer bg-white text-slate-700 hover:bg-slate-200 border border-slate-200"
         >
           Personas & Vida
         </button>
         <button 
           type="button" 
           data-filter="Empresas"
-          class="filter-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer bg-white text-slate-700 hover:bg-slate-200 border border-slate-200"
+          class="filter-pill shrink-0 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer bg-white text-slate-700 hover:bg-slate-200 border border-slate-200"
         >
           Empresas & ART
         </button>
         <button 
           type="button" 
           data-filter="Especiales"
-          class="filter-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer bg-white text-slate-700 hover:bg-slate-200 border border-slate-200"
+          class="filter-pill shrink-0 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer bg-white text-slate-700 hover:bg-slate-200 border border-slate-200"
         >
           Especiales & Caución
         </button>
@@ -101,11 +101,12 @@ function getIconSvg(name: string) {
 
     <!-- 16 Coverages Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="coverages-grid">
-      {coverages.map((item) => (
+      {coverages.map((item, index) => (
         <div 
           data-category={item.category}
           data-title={item.title}
-          class="coverage-card group bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-blue-600 hover:shadow-xl hover:shadow-blue-900/5 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between"
+          data-index={index}
+          class={`coverage-card group bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-blue-600 hover:shadow-xl hover:shadow-blue-900/5 hover:-translate-y-1.5 transition-all duration-300 flex-col justify-between ${index >= 6 ? 'hidden sm:flex' : 'flex'}`}
         >
           <div>
             <!-- Card Header: Icon & Category Tag -->
@@ -154,6 +155,20 @@ function getIconSvg(name: string) {
       ))}
     </div>
 
+    <!-- Mobile Progressive Disclosure Toggle -->
+    <div class="mt-8 text-center sm:hidden" id="mobile-expand-container">
+      <button
+        type="button"
+        id="toggle-coverages-btn"
+        class="inline-flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-xl bg-white border border-slate-300 text-slate-800 font-semibold text-sm shadow-sm active:bg-slate-50 transition-colors cursor-pointer"
+      >
+        <span id="toggle-coverages-text">Ver todas las coberturas (16)</span>
+        <svg id="toggle-coverages-icon" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
+    </div>
+
   </div>
 </section>
 
@@ -162,10 +177,68 @@ function getIconSvg(name: string) {
     const filterButtons = document.querySelectorAll<HTMLButtonElement>('.filter-pill');
     const cards = document.querySelectorAll<HTMLElement>('.coverage-card');
     const quoteButtons = document.querySelectorAll<HTMLButtonElement>('.quick-quote-coverage');
+    const toggleBtn = document.getElementById('toggle-coverages-btn') as HTMLButtonElement | null;
+    const toggleText = document.getElementById('toggle-coverages-text');
+    const toggleIcon = document.getElementById('toggle-coverages-icon');
+    const expandContainer = document.getElementById('mobile-expand-container');
+
+    let currentFilter = 'all';
+    let isMobileExpanded = false;
+
+    function renderCards() {
+      const isMobile = window.innerWidth < 640;
+
+      cards.forEach((card) => {
+        const cat = card.dataset.category;
+        const index = parseInt(card.dataset.index || '0', 10);
+        const matchesFilter = (currentFilter === 'all' || cat === currentFilter);
+
+        if (!matchesFilter) {
+          card.style.display = 'none';
+        } else {
+          // If 'all' on mobile and not expanded, hide items > 5
+          if (isMobile && currentFilter === 'all' && !isMobileExpanded && index >= 6) {
+            card.style.display = 'none';
+          } else {
+            card.style.display = 'flex';
+          }
+        }
+      });
+
+      // Manage expand button visibility on mobile
+      if (expandContainer) {
+        if (!isMobile || currentFilter !== 'all') {
+          expandContainer.style.display = 'none';
+        } else {
+          expandContainer.style.display = 'block';
+        }
+      }
+
+      if (toggleText && toggleIcon) {
+        if (isMobileExpanded) {
+          toggleText.textContent = 'Mostrar menos';
+          toggleIcon.style.transform = 'rotate(180deg)';
+        } else {
+          toggleText.textContent = 'Ver todas las coberturas (16)';
+          toggleIcon.style.transform = 'rotate(0deg)';
+        }
+      }
+    }
+
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', () => {
+        isMobileExpanded = !isMobileExpanded;
+        renderCards();
+        if (!isMobileExpanded) {
+          const section = document.getElementById('coberturas');
+          if (section) section.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
 
     filterButtons.forEach((btn) => {
       btn.addEventListener('click', () => {
-        const filter = btn.dataset.filter;
+        currentFilter = btn.dataset.filter || 'all';
 
         filterButtons.forEach((b) => {
           b.classList.remove('bg-slate-900', 'text-white', 'active');
@@ -175,16 +248,12 @@ function getIconSvg(name: string) {
         btn.classList.add('bg-slate-900', 'text-white', 'active');
         btn.classList.remove('bg-white', 'text-slate-700');
 
-        cards.forEach((card) => {
-          const cat = card.dataset.category;
-          if (filter === 'all' || cat === filter) {
-            card.style.display = 'flex';
-          } else {
-            card.style.display = 'none';
-          }
-        });
+        renderCards();
       });
     });
+
+    window.addEventListener('resize', renderCards);
+    renderCards();
 
     // When clicking "Consultar cobertura" on any card:
     quoteButtons.forEach((btn) => {

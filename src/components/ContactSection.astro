@@ -78,8 +78,9 @@ import { companyInfo } from '../data/companyInfo';
                   id="contact-name"
                   name="name"
                   required
+                  autocomplete="name"
                   placeholder="Ej: Marcelo Fernández"
-                  class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3.5 text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
+                  class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3.5 text-base sm:text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
                 />
               </div>
             </div>
@@ -95,8 +96,10 @@ import { companyInfo } from '../data/companyInfo';
                   id="contact-email"
                   name="email"
                   required
+                  inputmode="email"
+                  autocomplete="email"
                   placeholder="tu@email.com"
-                  class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3.5 text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
+                  class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3.5 text-base sm:text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
                 />
               </div>
             </div>
@@ -112,8 +115,10 @@ import { companyInfo } from '../data/companyInfo';
                   id="contact-phone"
                   name="phone"
                   required
+                  inputmode="tel"
+                  autocomplete="tel"
                   placeholder="Ej: +54 9 11 1234-5678"
-                  class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3.5 text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
+                  class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3.5 text-base sm:text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
                 />
               </div>
             </div>
@@ -128,7 +133,7 @@ import { companyInfo } from '../data/companyInfo';
                   id="contact-coverage"
                   name="coverage"
                   required
-                  class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3.5 text-sm text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all appearance-none cursor-pointer"
+                  class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3.5 text-base sm:text-sm text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all appearance-none cursor-pointer"
                 >
                   <option value="" disabled selected>Seleccioná una cobertura...</option>
                   {coverages.map((cov) => (
@@ -155,7 +160,7 @@ import { companyInfo } from '../data/companyInfo';
               name="message"
               rows="3"
               placeholder="Indicanos detalles como año y modelo de auto, ubicación de vivienda, cantidad de empleados para ART, etc."
-              class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3.5 text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all resize-none"
+              class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3.5 text-base sm:text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all resize-none"
             ></textarea>
           </div>
 

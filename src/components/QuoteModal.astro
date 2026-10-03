@@ -29,7 +29,7 @@ function getInsurerModalSvg(id: string) {
 
 <div
   id="quote-modal"
-  class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 opacity-0 pointer-events-none transition-all duration-300"
+  class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6 opacity-0 pointer-events-none transition-all duration-300"
   role="dialog"
   aria-modal="true"
   aria-labelledby="modal-title"
@@ -37,21 +37,26 @@ function getInsurerModalSvg(id: string) {
   <!-- Modal Backdrop -->
   <div id="modal-backdrop" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md transition-opacity"></div>
 
-  <!-- Modal Dialog -->
+  <!-- Modal Dialog (Bottom Sheet on mobile, centered card on desktop) -->
   <div 
-    class="relative w-full max-w-xl bg-slate-900 border border-slate-700/80 rounded-3xl shadow-2xl overflow-hidden flex flex-col z-10 transform scale-95 transition-transform duration-300"
+    class="relative w-full max-w-xl bg-slate-900 border-t sm:border border-slate-700/80 rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col z-10 transform translate-y-full sm:translate-y-0 sm:scale-95 transition-all duration-300 max-h-[90vh]"
     id="modal-card"
   >
+    <!-- Drag pill indicator for mobile -->
+    <div class="pt-3 pb-0 flex justify-center sm:hidden">
+      <div class="w-12 h-1.5 bg-slate-700 rounded-full"></div>
+    </div>
+
     <!-- Header -->
-    <div class="p-6 sm:p-8 border-b border-slate-800 flex items-start justify-between bg-slate-950/60">
+    <div class="p-5 sm:p-8 border-b border-slate-800 flex items-start justify-between bg-slate-950/60">
       <div>
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-900/40 border border-blue-500/30 text-blue-300 text-xs font-semibold mb-2.5">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-900/40 border border-blue-500/30 text-blue-300 text-xs font-semibold mb-2">
           <span>Cotización Online Directa</span>
         </div>
-        <h3 id="modal-title" class="text-2xl font-bold text-white tracking-tight">
+        <h3 id="modal-title" class="text-xl sm:text-2xl font-bold text-white tracking-tight">
           Elegí tu Compañía Aseguradora
         </h3>
-        <p class="text-xs sm:text-sm text-slate-300 mt-1.5 leading-relaxed">
+        <p class="text-xs sm:text-sm text-slate-300 mt-1 leading-relaxed">
           Hacé clic en la aseguradora con la que deseás cotizar para acceder a su plataforma oficial:
         </p>
       </div>
@@ -60,7 +65,7 @@ function getInsurerModalSvg(id: string) {
       <button
         id="close-modal-btn"
         type="button"
-        class="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-slate-800 transition-colors cursor-pointer shrink-0 ml-4"
+        class="text-slate-400 hover:text-white p-2.5 rounded-xl hover:bg-slate-800 transition-colors cursor-pointer shrink-0 ml-3 min-w-[40px] min-h-[40px] flex items-center justify-center"
         aria-label="Cerrar modal"
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -70,17 +75,17 @@ function getInsurerModalSvg(id: string) {
     </div>
 
     <!-- Body: 2 Clickable Insurer Cards -->
-    <div class="p-6 sm:p-8">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+    <div class="p-5 sm:p-8 overflow-y-auto pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] sm:pb-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-6">
         {modalInsurers.map((insurer) => (
           <a
             href={insurer.quoteUrl}
             target="_blank"
             rel="noopener noreferrer"
-            class="group relative flex flex-col items-center text-center p-6 rounded-2xl border-2 border-slate-800 bg-slate-950/70 hover:border-blue-500 hover:bg-slate-800/60 hover:shadow-xl hover:shadow-blue-600/10 transition-all duration-300 transform hover:-translate-y-1"
+            class="group relative flex flex-col items-center text-center p-4 sm:p-6 rounded-2xl border-2 border-slate-800 bg-slate-950/70 hover:border-blue-500 hover:bg-slate-800/60 hover:shadow-xl hover:shadow-blue-600/10 transition-all duration-300 transform active:scale-98"
           >
             <!-- Insurer Logo -->
-            <div class="w-28 h-20 bg-white rounded-2xl p-2.5 flex items-center justify-center border border-slate-700/80 shadow-md shrink-0 mb-4 overflow-hidden group-hover:scale-105 transition-transform duration-300">
+            <div class="w-24 h-16 sm:w-28 sm:h-20 bg-white rounded-xl sm:rounded-2xl p-2 flex items-center justify-center border border-slate-700/80 shadow-md shrink-0 mb-3 sm:mb-4 overflow-hidden group-hover:scale-105 transition-transform duration-300">
               {insurer.logoImg ? (
                 <img 
                   src={insurer.logoImg} 
@@ -93,12 +98,12 @@ function getInsurerModalSvg(id: string) {
             </div>
 
             <!-- Insurer Name -->
-            <h4 class="text-lg font-bold text-white group-hover:text-blue-300 transition-colors mb-1">
+            <h4 class="text-base sm:text-lg font-bold text-white group-hover:text-blue-300 transition-colors mb-1">
               {insurer.name}
             </h4>
 
             <!-- Short Tagline -->
-            <p class="text-xs text-slate-400 mb-6 line-clamp-2">
+            <p class="text-xs text-slate-400 mb-4 sm:mb-6 line-clamp-2">
               {insurer.tagline}
             </p>
 
@@ -113,7 +118,7 @@ function getInsurerModalSvg(id: string) {
         ))}
       </div>
 
-      <p class="text-center text-[11px] text-slate-400 mt-6">
+      <p class="text-center text-[11px] text-slate-400 mt-4 sm:mt-6">
         🔒 Acceso directo y seguro al cotizador oficial de cada compañía.
       </p>
     </div>
@@ -131,8 +136,8 @@ function getInsurerModalSvg(id: string) {
       if (!modal || !modalCard) return;
       modal.classList.remove('opacity-0', 'pointer-events-none');
       modal.classList.add('opacity-100', 'pointer-events-auto');
-      modalCard.classList.remove('scale-95');
-      modalCard.classList.add('scale-100');
+      modalCard.classList.remove('translate-y-full', 'sm:scale-95');
+      modalCard.classList.add('translate-y-0', 'sm:scale-100');
       document.body.style.overflow = 'hidden';
     }
 
@@ -140,8 +145,8 @@ function getInsurerModalSvg(id: string) {
       if (!modal || !modalCard) return;
       modal.classList.remove('opacity-100', 'pointer-events-auto');
       modal.classList.add('opacity-0', 'pointer-events-none');
-      modalCard.classList.remove('scale-100');
-      modalCard.classList.add('scale-95');
+      modalCard.classList.remove('translate-y-0', 'sm:scale-100');
+      modalCard.classList.add('translate-y-full', 'sm:scale-95');
       document.body.style.overflow = '';
     }
 
