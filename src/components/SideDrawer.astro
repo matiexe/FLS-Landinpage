@@ -73,7 +73,6 @@ import { companyInfo } from '../data/companyInfo';
             </svg>
           </span>
           Coberturas
-          <span class="ml-auto text-xs px-2 py-0.5 rounded-full bg-blue-900/60 text-blue-300 font-semibold border border-blue-700/40">16 ramas</span>
         </a>
       </li>
       <li>
@@ -108,19 +107,6 @@ import { companyInfo } from '../data/companyInfo';
         </a>
       </li>
     </ul>
-
-    <!-- Quick action inside drawer -->
-    <div class="mt-8 p-4 rounded-2xl bg-gradient-to-br from-blue-900/40 to-slate-800/60 border border-blue-500/20">
-      <h4 class="text-sm font-semibold text-white mb-1">¿Buscás cotización rápida?</h4>
-      <p class="text-xs text-slate-300 mb-3">Compará 2 aseguradoras en menos de 5 minutos de forma gratuita.</p>
-      <button 
-        type="button" 
-        id="drawer-quote-trigger"
-        class="w-full py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold shadow-md transition-all text-center block cursor-pointer"
-      >
-        Cotizar Ahora
-      </button>
-    </div>
   </nav>
 
   <!-- Drawer Footer Info -->
@@ -154,8 +140,6 @@ import { companyInfo } from '../data/companyInfo';
     const backdrop = document.getElementById('drawer-backdrop');
     const drawer = document.getElementById('side-drawer');
     const links = document.querySelectorAll('.drawer-link');
-    const drawerQuoteTrigger = document.getElementById('drawer-quote-trigger');
-    const quoteModal = document.getElementById('quote-modal');
 
     function openDrawer() {
       if (!drawer || !backdrop) return;
@@ -185,13 +169,6 @@ import { companyInfo } from '../data/companyInfo';
       link.addEventListener('click', () => {
         closeDrawer();
       });
-    });
-
-    drawerQuoteTrigger?.addEventListener('click', () => {
-      closeDrawer();
-      if (quoteModal) {
-        quoteModal.dispatchEvent(new CustomEvent('open-modal'));
-      }
     });
 
     document.addEventListener('keydown', (e) => {

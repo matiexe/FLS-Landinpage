@@ -8,6 +8,7 @@ export interface InsurerItem {
   color: string;
   bgLight: string;
   logoSvg: string;
+  quoteUrl: string;
 }
 
 export const insurers: InsurerItem[] = [
@@ -20,7 +21,8 @@ export const insurers: InsurerItem[] = [
     strengths: ["Líder en autos y motos", "Respuesta inmediata en siniestros", "Red de talleres certificados"],
     color: "#034EA2",
     bgLight: "bg-blue-50 text-blue-900 border-blue-200",
-    logoSvg: "fed-patronal"
+    logoSvg: "fed-patronal",
+    quoteUrl: "https://www.fedpat.com.ar" // URL de redirección editable
   },
   {
     id: "san-cristobal",
@@ -31,7 +33,8 @@ export const insurers: InsurerItem[] = [
     strengths: ["Amplia red de sucursales", "Auxilio mecánico ágil 24/7", "App de autogestión completa"],
     color: "#E2001A",
     bgLight: "bg-red-50 text-red-900 border-red-200",
-    logoSvg: "san-cristobal"
+    logoSvg: "san-cristobal",
+    quoteUrl: "https://www.sancristobal.com.ar" // URL de redirección editable
   },
   {
     id: "la-segunda",
@@ -42,7 +45,8 @@ export const insurers: InsurerItem[] = [
     strengths: ["Líder en coberturas agro y hogar", "Solidez institucional", "Planes corporativos a medida"],
     color: "#005596",
     bgLight: "bg-cyan-50 text-cyan-900 border-cyan-200",
-    logoSvg: "la-segunda"
+    logoSvg: "la-segunda",
+    quoteUrl: "https://www.lasegunda.com.ar"
   },
   {
     id: "zurich",
@@ -53,6 +57,10 @@ export const insurers: InsurerItem[] = [
     strengths: ["Prestigio y estándares internacionales", "Especialistas en Vida y Retiro", "Coberturas de alta gama"],
     color: "#2167AE",
     bgLight: "bg-indigo-50 text-indigo-900 border-indigo-200",
-    logoSvg: "zurich"
+    logoSvg: "zurich",
+    quoteUrl: "https://www.zurich.com.ar"
   }
 ];
+
+// Las 2 aseguradoras que aparecen en el modal de cotización directa
+export const modalInsurers = [insurers[0], insurers[1]];
