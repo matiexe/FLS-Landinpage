@@ -39,10 +39,10 @@ export const companyInfo: CompanyInfo = {
   whatsappMessage: "Hola! Me comunico desde la web y quisiera recibir asesoramiento para cotizar un seguro.",
   email: "contacto@flsseguros.com.ar",
   address: {
-    street: "Av. Corrientes 1450, Piso 6, Of. 602",
-    city: "Ciudad Autónoma de Buenos Aires",
-    province: "Buenos Aires",
-    zipCode: "C1042AAO",
+    street: "Sarmiento 268",
+    city: "Río Gallegos",
+    province: "Santa Cruz",
+    zipCode: "Z9400",
     country: "Argentina"
   },
   officeHours: {
