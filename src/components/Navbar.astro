@@ -23,36 +23,8 @@ import { companyInfo } from '../data/companyInfo';
       </div>
     </a>
 
-    <!-- Desktop Navigation Links -->
-    <nav class="hidden md:flex items-center gap-8">
-      <a href="#inicio" class="text-sm font-medium text-slate-300 hover:text-white transition-colors relative py-1 hover:after:w-full after:w-0 after:h-0.5 after:bg-blue-500 after:absolute after:bottom-0 after:left-0 after:transition-all">
-        Inicio
-      </a>
-      <a href="#coberturas" class="text-sm font-medium text-slate-300 hover:text-white transition-colors relative py-1 hover:after:w-full after:w-0 after:h-0.5 after:bg-blue-500 after:absolute after:bottom-0 after:left-0 after:transition-all">
-        Coberturas
-      </a>
-      <a href="#aseguradoras" class="text-sm font-medium text-slate-300 hover:text-white transition-colors relative py-1 hover:after:w-full after:w-0 after:h-0.5 after:bg-blue-500 after:absolute after:bottom-0 after:left-0 after:transition-all">
-        Aseguradoras
-      </a>
-      <a href="#contacto" class="text-sm font-medium text-slate-300 hover:text-white transition-colors relative py-1 hover:after:w-full after:w-0 after:h-0.5 after:bg-blue-500 after:absolute after:bottom-0 after:left-0 after:transition-all">
-        Contacto
-      </a>
-    </nav>
-
-    <!-- Header Actions (CTA & Sandwich Menu Toggle) -->
-    <div class="flex items-center gap-3 sm:gap-4">
-      <!-- Quick Cotizar Button -->
-      <button
-        type="button"
-        id="navbar-quote-btn"
-        class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-semibold shadow-lg shadow-blue-900/30 transition-all hover:shadow-blue-600/40 active:scale-95 cursor-pointer"
-      >
-        <span>Cotizar ahora</span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="9 18 15 12 9 6"/>
-        </svg>
-      </button>
-
+    <!-- Header Actions (Sandwich Menu Toggle) -->
+    <div class="flex items-center">
       <!-- Sandwich Menu Button -->
       <button
         id="open-drawer-btn"
@@ -67,19 +39,3 @@ import { companyInfo } from '../data/companyInfo';
     </div>
   </div>
 </header>
-
-<script>
-  function setupNavbar() {
-    const navbarQuoteBtn = document.getElementById('navbar-quote-btn');
-    const quoteModal = document.getElementById('quote-modal');
-
-    navbarQuoteBtn?.addEventListener('click', () => {
-      if (quoteModal) {
-        quoteModal.dispatchEvent(new CustomEvent('open-modal'));
-      }
-    });
-  }
-
-  setupNavbar();
-  document.addEventListener('astro:page-load', setupNavbar);
-</script>
