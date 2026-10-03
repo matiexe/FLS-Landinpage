@@ -20,7 +20,6 @@ export interface CompanyInfo {
     saturday: string;
     emergency: string;
   };
-  matricula: string;
   socials: {
     instagram: string;
     linkedin: string;
@@ -50,7 +49,6 @@ export const companyInfo: CompanyInfo = {
     saturday: "Sábados de 09:30 a 13:00 hs (Guardia)",
     emergency: "Línea de Siniestros y Urgencias: 24/7"
   },
-  matricula: "Matrícula SSN Nº 89.412 - Superintendencia de Seguros de la Nación",
   socials: {
     instagram: "https://instagram.com",
     linkedin: "https://linkedin.com",
